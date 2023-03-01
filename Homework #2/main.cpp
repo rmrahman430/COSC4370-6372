@@ -43,49 +43,78 @@ float specular[] = {1.0, 1.0, 1.0, 1.0};
 float shininess[] = {50.0};
 
 void problem1() {
-	// TODO: Your code here!
-
-	for (int i = 0; i < 11; i++) {
-		float angle =  2 * M_PI * i / 11;
-		float orient = angle * 180 / M_PI;
-		glPushMatrix();
-		glTranslatef(cos(angle), sin(angle), 0);
-		glRotatef(orient, 0, 0, 1);
-		glutSolidTeapot(0.1);
-		glPopMatrix();
-	}
-}
-
-void problem2() {
-	// TODO: Your code here!
-  int numSteps = 20;
-  float stepWidth = 1.0;
-  float stepDepth = 2.0;
-  float histogramData[] = {7.0 ,6.75, 6.50,6.25,6.0 ,5.75, 5.50, 5.25, 5.0 , 4.75 ,4.5 ,4.25 ,4.0, 3.75, 3.5, 3.25, 3.0, 2.75, 2.5, 2.25, 2.0};
-  float center = (numSteps - 1) * stepWidth / 2.0;
-  glColor3f(1.0, 1.0, 1.0);
-  gluLookAt(0.0, 0.0, 25.0, // eye position (increase z value)
-            0.0, 0.0, 0.0,  // look at origin
-            0.0, 5.0, 10.0);
-  
-  for (int i = 0; i < numSteps; i++) 
+    // TODO: Your code here!
+    // This loop will run 11 times, with i starting from 0 and incrementing by 1 each time.
+  for (int i = 0; i < 11; i++) 
   {
-    glColor3f(0, 0, 0);
+        // Calculate the angle in radians for the i-th position around a circle with radius 1.
+    float angle = 2 * M_PI * i / 11;
+        // Convert the angle from radians to degrees.
+    float orient = angle * 180 / M_PI;
+        // Save the current matrix on the stack.
     glPushMatrix();
-    glTranslatef(i*stepWidth - center, histogramData[i]/2.0, 0);
-    glScalef(stepWidth, histogramData[i], stepDepth);
-    glutSolidCube(1.0);
+        // Translate the object to the (x,y) coordinates of the i-th position around the circle.
+    glTranslatef(cos(angle), sin(angle), 0);
+        // Rotate the object by orient degrees around the z-axis.
+    glRotatef(orient, 0, 0, 1);
+        // Draw a teapot with a scale of 0.1.
+    glutSolidTeapot(0.1);
+        // Restore the previous matrix from the stack.
     glPopMatrix();
   }
 }
+
+
+void problem2() {
+    // TODO: Your code here!
+
+    // Set the number of steps in the histogram, the width of each step, and the depth of each step.
+  int numSteps = 20;
+  float stepWidth = 1.0;
+  float stepDepth = 2.0;
+
+    // Set the data for the histogram.
+  float histogramData[] = {7.0, 6.75, 6.50, 6.25, 6.0, 5.75, 5.50, 5.25, 5.0, 4.75, 4.5, 4.25, 4.0, 3.75, 3.5, 3.25, 3.0, 2.75, 2.5, 2.25, 2.0};
+    // Calculate the center of the histogram, which will be used to position the steps.
+  float center = (numSteps - 1) * stepWidth / 2.0;
+
+    // Set the color to white.
+  glColor3f(1.0, 1.0, 1.0);
+
+    // Set the camera position to (0, 0, 25), looking at the origin, with the up direction along the positive y-axis.
+  gluLookAt(0.0, 0.0, 25.0,  // eye position (increase z value)
+              0.0, 0.0, 0.0,  // look at origin
+              0.0, 5.0, 10.0); // up direction along positive y-axis
+
+    // Loop through each step in the histogram.
+  for (int i = 0; i < numSteps; i++) 
+  {
+        // Set the color to black.
+    glColor3f(0, 0, 0);
+        // Save the current matrix on the stack.
+    glPushMatrix();
+        // Translate the step to its position in the histogram, based on the step width and the center position.
+    glTranslatef(i * stepWidth - center, histogramData[i] / 2.0, 0);
+        // Scale the step to its height and width, based on the step width and depth.
+    glScalef(stepWidth, histogramData[i], stepDepth);
+        // Draw a solid cube with a scale of 1.0.
+    glutSolidCube(1.0);
+        // Restore the previous matrix from the stack.
+    glPopMatrix();
+  }
+}
+
 
 void problem3() 
 {
 	float teapotSize = 0.1;
 	float translation[6] = {-0.75, -0.65, -0.55, -0.45, -0.35, -0.25};
 	// TODO: Your code here!
+  // Loop through the rows of teapots.
 	for (int i = 0; i < 6; i++) {
+    // Loop through the columns of teapots in each row.
 		for (int j = 0; j < 6 - i; j++) {
+      // Translate and rotate each teapot.
 			glPushMatrix();
 			glTranslatef(
 				translation[i] + (j * 0.3) + (i * teapotSize / 2),
