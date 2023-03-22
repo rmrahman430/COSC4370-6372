@@ -80,9 +80,13 @@ public:
 	// LookAt Matrix
 	glm::mat4 GetViewMatrix() 
   {
+	// Calculate the camera target
     glm::vec3 cameraTarget = this->Position + this->Front;
+     	// Calculate the camera's direction vector, which is the normalized vector pointing from the camera's position to its target.
     glm::vec3 cameraDirection = glm::normalize(cameraTarget - this->Position);
+	//Calculate the up vector, which is the normalized cross product of the camera's Right vector and its direction vector.
     glm::vec3 up = glm::normalize(glm::cross(this->Right, cameraDirection));
+	//Return the view matrix
     return glm::lookAt(this->Position, cameraTarget, up);
   }
 
